@@ -1,7 +1,12 @@
-FROM node:18
+FROM node:18-alpine
 WORKDIR /app
-COPY package*.json ./
-RUN npm install --production
-COPY . .
+
+COPY backend/package*.json ./
+RUN npm ci --only=production
+
+COPY backend/ ./
+
+ENV PORT=5000
 EXPOSE 5000
-CMD ["node","server.js"]
+
+CMD ["node", "index.js"]
